@@ -743,3 +743,22 @@ func TestLiteralGlobNameMatchesOnlyAsFallback(t *testing.T) {
 		}
 	}
 }
+
+func TestIndexFold(t *testing.T) {
+	for i, tc := range []struct {
+		haystack, needle string
+		expected         int
+	}{
+		{"index.php", ".php", 5},
+		{"index.PHP/x", ".php", 5},
+		{"index.php", "php", 6},
+		{"index.php", "index.php", 0},
+		{"index.php", "z", -1},
+		{"ab", "abc", -1},
+		{"a", "a", 0},
+	} {
+		if got := indexFold(tc.haystack, tc.needle); got != tc.expected {
+			t.Errorf("Test %d: indexFold(%q, %q) = %d, want %d", i, tc.haystack, tc.needle, got, tc.expected)
+		}
+	}
+}

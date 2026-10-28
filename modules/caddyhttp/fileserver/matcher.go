@@ -624,7 +624,7 @@ func (m MatchFile) firstSplit(path string) (splitPart, remainder string) {
 // substring search (as of Go 1.14).
 func indexFold(haystack, needle string) int {
 	nlen := len(needle)
-	for i := 0; i+nlen < len(haystack); i++ {
+	for i := 0; i+nlen <= len(haystack); i++ {
 		if strings.EqualFold(haystack[i:i+nlen], needle) {
 			return i
 		}
